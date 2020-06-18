@@ -1,0 +1,5 @@
+FROM composer:latest
+
+WORKDIR /var/www/html
+
+RUN composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/

@@ -1,0 +1,47 @@
+FROM php:7.4-fpm-alpine
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+
+# Install dev dependencies
+RUN apk add --no-cache --virtual .build-deps \
+    $PHPIZE_DEPS \
+    curl-dev \
+    imagemagick-dev \
+    libtool \
+    libxml2-dev 
+
+# Install production dependencies
+RUN apk add --no-cache \
+    freetype-dev \
+    icu-dev \
+    icu-libs \
+    imagemagick \
+    libc-dev \
+    libjpeg-turbo-dev \
+    libpng-dev \
+    libzip-dev \
+    oniguruma-dev \
+    zlib-dev
+
+# Configure php extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+
+# Install php extensions
+RUN docker-php-ext-install \
+    bcmath \
+    calendar \
+    exif \
+    gd \
+    intl \
+    pdo_mysql \
+    pcntl \
+    zip
+
+# Install PECL and PEAR extensions
+RUN pecl install redis imagick \
+    && docker-php-ext-enable redis imagick
+
+# Cleanup dev dependencies
+RUN apk del -f .build-deps
+
+WORKDIR /var/www/html
