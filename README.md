@@ -13,9 +13,9 @@
 - `docker-compose run --rm artisan migrate` 
 
 容器映射端口为:
-- **nginx** - `:8080`
-- **mysql** - `:3307`
-- **redis** - `:6380`
+- **nginx** - `:8000`
+- **mysql** - `:33060`
+- **redis** - `:63790`
 - **php** - `:9001`
 - **npm**
 - **composer**
